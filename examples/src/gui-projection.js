@@ -13,12 +13,12 @@
         src: './assets/uv_checker_02.jpg'
       },
     },
-    onDone (assets) {
+    onDone(assets) {
       let image = assets.image;
       texture = new gfx.Texture2D(device, {
-        width : image.width,
-        height : image.height,
-        images : [image],
+        width: image.width,
+        height: image.height,
+        images: [image],
       });
     }
   });
@@ -62,12 +62,12 @@
     vertexFmt,
     gfx.USAGE_STATIC,
     new Float32Array([
-      0, 0,                       0, 0,
-      0, spriteHeight,            0, 1,
-      spriteWidth, spriteHeight,  1, 1,
-      0, 0,                       0, 0,
-      spriteWidth, spriteHeight,  1, 1,
-      spriteWidth, 0,             1, 0
+      0, 0, 0, 0,
+      0, spriteHeight, 0, 1,
+      spriteWidth, spriteHeight, 1, 1,
+      0, 0, 0, 0,
+      spriteWidth, spriteHeight, 1, 1,
+      spriteWidth, 0, 1, 0
     ]),
     6
   );
@@ -90,13 +90,9 @@
   return function tick() {
     mat4.ortho(projection, 0, canvas.width, 0, canvas.height, -100, 100);
 
-    mat23.fromTranslation(affineTranslation, vec2.new(10, (canvas.height - spriteHeight) / 2));
-
-    mat23.fromTranslation(affineRotation, vec2.new(10 + spriteWidth * 2, (canvas.height - spriteHeight) / 2));
-    mat23.rotate(affineRotation, affineRotation, toRadian(15));
-
-    mat23.fromTranslation(affineScale, vec2.new(10 + spriteWidth * 4, (canvas.height - spriteHeight) / 2));
-    mat23.scale(affineScale, affineScale, vec2.new(1.2, 0.5));
+    mat23.fromRTS(affineTranslation, 0, vec2.new(10, (canvas.height - spriteHeight) / 2), vec2.new(1, 1));
+    mat23.fromRTS(affineRotation, Math.PI * 15 / 180, vec2.new(10 + spriteWidth * 2, (canvas.height - spriteHeight) / 2), vec2.new(1, 1));
+    mat23.fromRTS(affineScale, Math.PI * 15 / 180, vec2.new(10 + spriteWidth * 4, (canvas.height - spriteHeight) / 2), vec2.new(1.2, 0.5));
 
     device.setViewport(0, 0, canvas.width, canvas.height);
     device.clear({
